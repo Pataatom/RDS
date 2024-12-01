@@ -107,5 +107,7 @@ while True:
     num_of_detected_people = optical_human_recognition()
     if num_of_detected_people is not None and num_of_detected_people > 0:
         led.on()
+    else:
+        led.off()
 
 
