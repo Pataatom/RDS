@@ -86,7 +86,7 @@ def optical_human_recognition(show_video=False):
         exit()
     # ____num of people on average____
     people_averaging_list.append(count_of_people)
-    if len(people_averaging_list) == fps:  # averaging frames
+    if len(people_averaging_list) == fps/2:  # averaging frames
         # averaged_num_of_people = 0  # I do realize that using this variable for more things is bad practice
 
         for num in people_averaging_list:
@@ -105,9 +105,10 @@ def optical_human_recognition(show_video=False):
 
 while True:
     num_of_detected_people = optical_human_recognition()
-    if num_of_detected_people is not None and num_of_detected_people > 0:
-        led.on()
-    else:
-        led.off()
+    if num_of_detected_people is not None:
+        if num_of_detected_people > 0:
+            led.on()
+        else:
+            led.off()
 
 
