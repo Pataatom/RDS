@@ -1,10 +1,16 @@
 import pygame
 import time
 import cv2
-from gpiozero import DigitalInputDevice as DID
-from gpiozero import DigitalOutputDevice as DOD
+import pigpio
 
-led = DOD(26)
+pi = pigpio.pi()
+
+if not pi.connected:
+    print("Failed to connect to pigpio daemon!")
+    exit()
+
+led_pin = 26
+pi.set_mode(led_pin, pigpio.OUTPUT)
 
 pygame.mixer.init()
 
@@ -102,13 +108,16 @@ def optical_human_recognition(show_video=False):
 
 # alarm_sound(r"Burglar Alarm Going off with Sirens.mp3")
 
-
-while True:
-    num_of_detected_people = optical_human_recognition()
-    if num_of_detected_people is not None:
-        if num_of_detected_people > 0:
-            led.on()
-        else:
-            led.off()
-
+try:
+    while True:
+        num_of_detected_people = optical_human_recognition()
+        if num_of_detected_people is not None:
+            if num_of_detected_people > 0:
+                pi.write(led_pin, 1)
+            else:
+                pi.write(led_pin, 0)
+except KeyboardInterrupt:
+    print("Goodbye")
+    time.sleep(1)
+pi.stop()
 
