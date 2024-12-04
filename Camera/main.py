@@ -121,10 +121,11 @@ try:
                 else:
                     pi.write(led_pin, 0)
     '''
-    if pi.read(pir_pin) == 1:
-        pi.write(led_pin, 1)
-    else:
-        pi.write(led_pin, 0)
+    while True:
+        if pi.read(pir_pin) == 1:
+            pi.write(led_pin, 1)
+        else:
+            pi.write(led_pin, 0)
 except KeyboardInterrupt:
     print("ya")
     time.sleep(1)
