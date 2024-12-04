@@ -4,15 +4,19 @@ import cv2
 import pigpio
 
 pi = pigpio.pi()
+pygame.mixer.init()
 
 if not pi.connected:
     print("Failed to connect to pigpio daemon!")
+    time.sleep(1)
     exit()
 
+print("Connecting to pigpio daemon was successful")
 led_pin = 26
+pir_pin = 13
 pi.set_mode(led_pin, pigpio.OUTPUT)
+pi.set_mode(pir_pin, pigpio.INPUT)
 
-pygame.mixer.init()
 
 # ____CAMERA____
 cap = cv2.VideoCapture(0)
@@ -49,7 +53,6 @@ def optical_human_recognition(show_video=False):
 
     if not ret:
         raise IOError("Cam not recording")
-
     width = frame.shape[1]
     height = frame.shape[0]
 
@@ -109,15 +112,22 @@ def optical_human_recognition(show_video=False):
 # alarm_sound(r"Burglar Alarm Going off with Sirens.mp3")
 
 try:
-    while True:
-        num_of_detected_people = optical_human_recognition()
-        if num_of_detected_people is not None:
-            if num_of_detected_people > 0:
-                pi.write(led_pin, 1)
-            else:
-                pi.write(led_pin, 0)
+    '''
+        while True:
+            num_of_detected_people = optical_human_recognition()
+            if num_of_detected_people is not None:
+                if num_of_detected_people > 0:
+                    pi.write(led_pin, 1)
+                else:
+                    pi.write(led_pin, 0)
+    '''
+    if pi.read(pir_pin) == 1:
+        pi.write(led_pin, 1)
+    else:
+        pi.write(led_pin, 0)
 except KeyboardInterrupt:
-    print("Goodbye")
+    print("ya")
     time.sleep(1)
 pi.stop()
+
 
