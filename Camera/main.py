@@ -2,9 +2,13 @@ import pygame
 import time
 import cv2
 import pigpio
+import pyfiglet
 
 pi = pigpio.pi()
 pygame.mixer.init()
+
+print(pyfiglet.figlet_format(text="RDS", font="big"))  # welcome text
+print("\n")
 
 if not pi.connected:
     print("Failed to connect to pigpio daemon!")
