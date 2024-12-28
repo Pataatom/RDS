@@ -12,7 +12,8 @@ print("\n")
 
 if not pi.connected:
     print("Failed to connect to pigpio daemon!")
-    time.sleep(1)
+    print("Try typing this command to console: sudo pigpiod")
+    time.sleep(2)
     exit()
 
 print("Connecting to pigpio daemon was successful")
@@ -38,6 +39,7 @@ prototxt = r"MobileNetSSD_deploy.prototxt"  # Model definition is stored in this
 net = cv2.dnn.readNetFromCaffe(prototxt, caffe_model)
 classNames = {15: 'person'}
 # ____CAMERA____
+
 
 def alarm_sound(alarm_path):
     pygame.mixer.music.load(alarm_path)
@@ -115,6 +117,7 @@ def optical_human_recognition(show_video=False):
 
 # alarm_sound(r"Burglar Alarm Going off with Sirens.mp3")
 
+
 try:
     '''
         while True:
@@ -130,7 +133,7 @@ try:
             pi.write(led_pin, 1)
         else:
             pi.write(led_pin, 0)
-except KeyboardInterrupt:
+except KeyboardInterrupt:  # in case of Ctrl+C, end the program
     print("ya")
     time.sleep(1)
 pi.stop()
