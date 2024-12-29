@@ -50,8 +50,10 @@ try:
                 for step in range(steps):
                     for pin in range(4):
                         pi.write(control_pin[pin], seq[step][pin])
-                        time.sleep(0.1)
+                        time.sleep(0.01)
 
 except KeyboardInterrupt:
     pass
+for pin in range(4):
+    pi.write(control_pin[pin], 0)
 pi.stop()
