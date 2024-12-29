@@ -4,7 +4,7 @@ import pigpio
 
 pi = pigpio.pi()
 
-control_pin = []
+control_pin = [26, 19, 13, 6]
 for pin in control_pin:
     pi.set_mode(pin, pigpio.OUTPUT)
     pi.write(pin, 0)
