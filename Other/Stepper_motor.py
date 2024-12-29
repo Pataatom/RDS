@@ -36,7 +36,7 @@ double_step = [
 try:
     while True:
         user = input("> ")
-        if input().lower() in ("h", "f", "d"):
+        if user.lower() in ("h", "f", "d"):
             if user == "h":
                 seq = half_step
                 steps = 8
